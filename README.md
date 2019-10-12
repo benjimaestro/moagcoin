@@ -6,3 +6,5 @@ PyInstaller is recommended for compilation
 `pyinstaller -i <icon>.ico --onefile miner.py`
 ## What if I lose all my savings with moagcoin?
 your own fault you dumb bitch!!!!!!!!
+## Your code is bad and your snarky comments arent helpful :(
+tough tits, booby face!
