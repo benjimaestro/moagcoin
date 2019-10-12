@@ -1,4 +1,4 @@
-#MoagCoin Miner
+# MoagCoin Miner
 ## What is this?
 This is the open source repository for the MoagCoin cryptocurrency.
 The source code is distributed as-is, any faults or problems occured through use of this uncompiled version of the miner is your own problem
