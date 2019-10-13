@@ -5,6 +5,8 @@ The source code is distributed as-is, any faults or problems occured through use
 PyInstaller is recommended for compilation
 
 `pyinstaller -i <icon>.ico --onefile miner.py`
+## give me the exe!!!!
+https://github.com/benjimaestro/moagcoin/releases
 ## What if I lose all my savings with moagcoin?
 your own fault you dumb bitch!!!!!!!!
 ## Your code is bad and your snarky comments arent helpful :(
