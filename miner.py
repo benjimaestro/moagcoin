@@ -74,26 +74,29 @@ def sign_ECDSA_msg(message,private_key):#Signs messages with your private key - 
     return signature, message#Returns b64 signature to make it shorter
 
 def send_transaction(addr_from, private_key, addr_to, amount, message):#Does what the name says, best not to mess with too much or you may lose out on your money
-    if len(private_key) == 64 and type(amount) == int:
-        signature, message = sign_ECDSA_msg(message,private_key)
-        timeNow = time.time()
-        toHash = addr_to + addr_from + str(timeNow)+"80"
-        payload = {"from": addr_from,
-                   "to": addr_to,
-                   "amount": amount,
-                   "signature": signature.decode(),
-                   "message": message,
-                   "timestamp":timeNow,
-                   "nonce":random.randint(1,2147483646),
-                   "header":"transaction",
-                   "hash":hashlib.sha256(toHash.encode()).hexdigest(),
-                   "validated": "unclaimed"}
-        print(payload)
-        res = requests.post("http://35.209.72.253:443/addTrans", data=payload)
-        if res.text == "True":
-            return True
+    if len(private_key) == 64:
+        if type(amount) == int or type(amount) == float:
+            signature, message = sign_ECDSA_msg(message,private_key)
+            timeNow = time.time()
+            toHash = addr_to + addr_from + str(timeNow)+"80"
+            payload = {"from": addr_from,
+                       "to": addr_to,
+                       "amount": amount,
+                       "signature": signature.decode(),
+                       "message": message,
+                       "timestamp":timeNow,
+                       "nonce":random.randint(1,2147483646),
+                       "header":"transaction",
+                       "hash":hashlib.sha256(toHash.encode()).hexdigest(),
+                       "validated": "unclaimed"}
+            print(payload)
+            res = requests.post("http://35.209.72.253:443/addTrans", data=payload)
+            if res.text == "True":
+                return True
+            else:
+                return False
         else:
-            return False
+                return False
     else:
         return False
 
@@ -139,7 +142,7 @@ def txWindow():#Transaction window, called when payment window button is pressed
     msg.pack(fill="x")
     padding = Label(tx,background="black",text=" ",font=("Courier New", 18))
     padding.pack()
-    confirm = Button(tx,background="black",text="CONFIRM PAYMENT",foreground="green",font=("Courier New", 24),command=lambda: [send_transaction(publicAddress,read_wallet()['private_key'],address.get(),int(amount.get()),msg.get()),tx.destroy()])
+    confirm = Button(tx,background="black",text="CONFIRM PAYMENT",foreground="green",font=("Courier New", 24),command=lambda: [send_transaction(publicAddress,read_wallet()['private_key'],address.get(),float(amount.get()),msg.get()),tx.destroy()])
     confirm.pack()
     label = Label(tx,background="black",text=" ",foreground="green",font=("Courier New", 16))
     label.pack()
@@ -214,7 +217,7 @@ class miner():#Handles the proof of work mining of blocks - do not edit this, or
                                        string.digits) for x in range(self.size))
                     attempt = challenge+answer
                     solution = hashlib.sha256(attempt.encode()).hexdigest()
-                    if solution.startswith('000000'):#DONT change this either, will be rejected by server
+                    if solution.startswith('000'):#DONT change this either, will be rejected by server
                         found = True
                         print("BLOCK MINED! Time taken:", time.time()-start)
                         print(solution)
