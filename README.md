@@ -8,12 +8,7 @@ PyInstaller is recommended for compilation
 
 www.moagco.in and www.moagcoin.info for more information
 ## Important notes
-DO NOT delete your wallet file unless you're cool with losing your coins.
-
-DO NOT give away your private key (NOT the same as the address/public key which is fine to give away)
-
-DO give away your public key/address!
-
+https://github.com/benjimaestro/moagcoin/wiki/Issues-and-important-notes
 ## Where's the ready made and compiled .exe?
 https://github.com/benjimaestro/moagcoin/releases
 ## What if I lose all my savings with moagcoin?
