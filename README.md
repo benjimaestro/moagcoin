@@ -20,5 +20,7 @@ https://github.com/benjimaestro/moagcoin/releases
 your own fault you dumb bitch!!!!!!!!
 ## Your code is bad and your snarky comments arent helpful :(
 tough tits, booby face!
+## I want linux!!!!!
+https://github.com/benjimaestro/moagcoin/wiki/Linux-support
 
 MoagCoin brought to you by Benjimaestro#0119 and M.O.A.G#1337
