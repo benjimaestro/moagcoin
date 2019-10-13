@@ -5,6 +5,7 @@ The source code is distributed as-is, any faults or problems occured through use
 PyInstaller is recommended for compilation
 
 `pyinstaller -i <icon>.ico --onefile miner.py`
+www.moagco.in and www.moagcoin.info for more information
 ## Important notes
 DO NOT delete your wallet file unless you're cool with losing your coins.
 
@@ -18,3 +19,5 @@ https://github.com/benjimaestro/moagcoin/releases
 your own fault you dumb bitch!!!!!!!!
 ## Your code is bad and your snarky comments arent helpful :(
 tough tits, booby face!
+
+MoagCoin brought to you by Benjimaestro#0119 and M.O.A.G#1337
