@@ -217,7 +217,7 @@ class miner():#Handles the proof of work mining of blocks - do not edit this, or
                                        string.digits) for x in range(self.size))
                     attempt = challenge+answer
                     solution = hashlib.sha256(attempt.encode()).hexdigest()
-                    if solution.startswith('000'):#DONT change this either, will be rejected by server
+                    if solution.startswith('000000'):#DONT change this either, will be rejected by server
                         found = True
                         print("BLOCK MINED! Time taken:", time.time()-start)
                         print(solution)
