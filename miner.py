@@ -80,7 +80,7 @@ def update(ind):#runs coin gif
     label.configure(image=frame)
     root.after(78, update, ind)
 def motd():#returns le funni message
-    motd = ["change da world.\nmy final message.\ngoodbye","fortnite سيئة minecraft\nجيدة أكره الناس العاديين","we like fortnite","to the moon!","pee pee poo poo","a girl is sitting next to me\nright now what do i do","I guess they never miss, huh?","run on htc bolt for more faster","john madden john madden john madden","burger king floor 2 of waterloo station","powered by droidchan","anime girl in laser machine","just found out about racism...","does belle delphine accept moagcoin","n word","Make billions with moagCoin","ah ah ah oooh yeah","o, the pelican. so smoothly doth\nhe crest. a wind god!","which chipmunk got the most crypto?","bitconnect v2","blockchain powered by DROIDCHAN AI"]
+    motd = ["change da world.\nmy final message.\ngoodbye","fortnite سيئة minecraft\nجيدة أكره الناس العاديين","we like fortnite","to the moon!","pee pee poo poo","a girl is sitting next to me\nright now what do i do","I guess they never miss, huh?","run on htc bolt for more faster","john madden john madden john madden","burger king floor 2 of waterloo station","powered by droidchan","anime girl in laser machine","just found out about racism...","does belle delphine accept moagcoin","Make billions with moagCoin","ah ah ah oooh yeah","o, the pelican. so smoothly doth\nhe crest. a wind god!","which chipmunk got the most crypto?","bitconnect v2","blockchain powered by DROIDCHAN AI"]
     return motd[random.randint(0,len(motd)-1)]
 def txWindow():#Transaction window, called when payment window button is pressed, pretty safe to mess around with/theme
     publicAddress = read_wallet()['public_key']
