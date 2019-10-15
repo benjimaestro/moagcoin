@@ -80,7 +80,7 @@ def update(ind):#runs coin gif
     label.configure(image=frame)
     root.after(78, update, ind)
 def motd():#returns le funni message
-    motd = ["change da world.\nmy final message.\ngoodbye","fortnite سيئة minecraft\nجيدة أكره الناس العاديين","we like fortnite","to the moon!","pee pee poo poo","a girl is sitting next to me\nright now what do i do","I guess they never miss, huh?","run on htc bolt for more faster","john madden john madden john madden","burger king floor 2 of waterloo station","powered by droidchan","anime girl in laser machine","just found out about racism...","does belle delphine accept moagcoin","Make billions with moagCoin","ah ah ah oooh yeah","o, the pelican. so smoothly doth\nhe crest. a wind god!","which chipmunk got the most crypto?","bitconnect v2","blockchain powered by DROIDCHAN AI"]
+    motd = ["change da world.\nmy final message.\ngoodbye","fortnite سيئة minecraft\nجيدة أكره الناس العاديين","we like fortnite","to the moon!","pee pee poo poo","a girl is sitting next to me\nright now what do i do","I guess they never miss, huh?","run on htc bolt for more faster","john madden john madden john madden","burger king floor 2 of waterloo station","powered by droidchan","anime girl in laser machine","just found out about racism...","does belle delphine accept moagcoin","Make billions with moagCoin","moagCoin remembers the Alamo","ah ah ah oooh yeah","o, the pelican. so smoothly doth\nhe crest. a wind god!","Officially more valuable than Bitcoin","bitconnect v2","blockchain AI says: buy high sell low!","le funni messaege","what if... we kissed while\nmining moagCoin...","i'm stuffed lmao\ncompletely demolished\nthese wings","mario and sonic at the\nolympic games 2008 for\nthe nintendo wii","zoo wee mama"]
     return motd[random.randint(0,len(motd)-1)]
 def txWindow():#Transaction window, called when payment window button is pressed, pretty safe to mess around with/theme
     publicAddress = read_wallet()['public_key']
@@ -166,16 +166,16 @@ class varSave():
     def __init__(self):
         self.quit = True
 
-def miner(vs,quitEvent):
+def miner(vs,quitEvent,sclCores):
     procs = []#Stores processes, best not to mess with
     publicAddress = read_wallet()['public_key']
-
-    if mp.cpu_count() == 1:                         #This block determintes how many processes should be spawned
-        cores = 1                                   #when mining is done with multiprocessing
-    if mp.cpu_count() > 1 and mp.cpu_count() <= 6:  #it's OK to modify this but keep in mind that your PC will
-       cores = mp.cpu_count() - 1                   #slow considerably if you don't keep some cores open.
-    if mp.cpu_count() > 6:                          #
-       cores = mp.cpu_count() - 2                   #
+    cores = sclCores
+    #if mp.cpu_count() == 1:                         #This block determintes how many processes should be spawned
+    #    cores = 1                                   #when mining is done with multiprocessing
+    #if mp.cpu_count() > 1 and mp.cpu_count() <= 6:  #it's OK to modify this but keep in mind that your PC will
+    #   cores = mp.cpu_count() - 1                   #slow considerably if you don't keep some cores open.
+    #if mp.cpu_count() > 6:                          #
+    #   cores = mp.cpu_count() - 2                   #
     
     print("Starting miner with "+str(cores)+" cores...")
     print("SICKO MODE ENGAGED, using "+str(cores)+" cores!")
@@ -221,7 +221,6 @@ def proofOfWork(event, block, publicAddress):#Core mining module, does the work 
         if solution.startswith('000000'):#DONT change this either, will be rejected by server - should be 000000
             found = True
             print("\nBLOCK MINED! Time taken:", time.time()-start)
-            print("Timestamp:",time.time())
             print(solution)
             start = time.time()
             block["attempt"] = attempt
@@ -231,7 +230,7 @@ def proofOfWork(event, block, publicAddress):#Core mining module, does the work 
             event.set()
     return True
     
-def minerButton(vs,quitEvent):#run when the mining button is pressed, best not to edit this
+def minerButton(vs,quitEvent,sclCores):#run when the mining button is pressed, best not to edit this
     if vs.quit == True:
         vs.quit = False
         quitEvent.clear()
@@ -241,7 +240,7 @@ MoagCoin mining is CPU intensive.
 Depending on device performance, mining MoagCoin may take time.
 If you stop mining, you will lose the block that's currently being mined.""")
         #minerThread = threading.Thread(target=Miner.miner).start()#Starts miner thread seperate to rest of UI thread
-        minerProc = mp.Process(target=miner,args=[vs,quitEvent,]).start()
+        minerProc = mp.Process(target=miner,args=[vs,quitEvent,sclCores,]).start()
 
     else:
         print("MINING STOPPING, PLEASE WAIT A FEW SECONDS FOR PROCESSES TO END!")
@@ -293,7 +292,11 @@ if __name__ == '__main__':
     btnWallet.pack()
     btnMine_text = StringVar()
     btnMine_text.set("START MINING")
-    btnMine = Button(root,background="black",textvariable=btnMine_text,foreground="green",font=("Courier New", 24), command=lambda: minerButton(vs,quitEvent))
+    btnMine = Button(root,background="black",textvariable=btnMine_text,foreground="green",font=("Courier New", 24), command=lambda: minerButton(vs,quitEvent,sclCores.get()))
     btnMine.pack()
+    sclCores = Scale(root, label="SICKO MODE: Select amount of cores to use",length=280,from_=1, to=mp.cpu_count(),orient="horizontal",bg="black",fg="green",relief="flat",bd=0,highlightbackground="black",highlightcolor="black")
+    sclCores.pack()
+    padding = Label(root,background="black",text=" ",font=("Courier New", 18))
+    padding.pack()
     root.after(0, update, 0)
     root.mainloop()
