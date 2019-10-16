@@ -25,13 +25,13 @@ def generate_wallet():
     #encode key to make it shorter
     public_key = base64.b64encode(bytes.fromhex(public_key))
     file_contents = {"public_key":public_key.decode(),"private_key":private_key}
-    if path.exists("guru99.txt"):
+    if os.path.exists("wallet"):
         print("Wallet already exists!")
     else:
         with open("wallet", "w") as f:
             f.write(str(file_contents))
-        with open("wallet.backup") as f:
-            content = f.readlines()
+        with open("wallet.backup.COPY_ME_SOMEWHERE_ELSE", "w") as f:
+            f.write(str(file_contents))
 
 def sign_ECDSA_msg(message,private_key):#Signs messages with your private key - DO NOT FUCK WITH THIS because if you mess it up, none of your requests will be verified
     bmessage = message.encode()
@@ -68,12 +68,12 @@ def send_transaction(addr_from, private_key, addr_to, amount, message):#Does wha
 
 def read_wallet():#Reads wallet file and returns dictionary
     try:
-        with open("wallet") as f:
+        with open("wallet","r") as f:
             content = f.readlines()
         return literal_eval(content[0])
     except FileNotFoundError:
         generate_wallet()
-        with open("wallet") as f:
+        with open("wallet","r") as f:
             content = f.readlines()
         return literal_eval(content[0])
 
