@@ -25,8 +25,13 @@ def generate_wallet():
     #encode key to make it shorter
     public_key = base64.b64encode(bytes.fromhex(public_key))
     file_contents = {"public_key":public_key.decode(),"private_key":private_key}
-    with open("wallet", "w") as f:
-        f.write(str(file_contents))
+    if path.exists("guru99.txt"):
+        print("Wallet already exists!")
+    else:
+        with open("wallet", "w") as f:
+            f.write(str(file_contents))
+        with open("wallet.backup") as f:
+            content = f.readlines()
 
 def sign_ECDSA_msg(message,private_key):#Signs messages with your private key - DO NOT FUCK WITH THIS because if you mess it up, none of your requests will be verified
     bmessage = message.encode()
@@ -165,10 +170,11 @@ def wallet():#Wallet window, called when open wallet is pressed, fairly safe to 
 class varSave():
     def __init__(self):
         self.quit = True
+        self.publicAddress = read_wallet()['public_key']
 
 def miner(vs,quitEvent,sclCores):
     procs = []#Stores processes, best not to mess with
-    publicAddress = read_wallet()['public_key']
+    publicAddress = vs.publicAddress
     cores = sclCores
     #if mp.cpu_count() == 1:                         #This block determintes how many processes should be spawned
     #    cores = 1                                   #when mining is done with multiprocessing
