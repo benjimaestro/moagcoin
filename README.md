@@ -1,4 +1,6 @@
 # MoagCoin Miner
+## WARNING!
+This is a dumb meme project I made in a rush as part of a joke with friends. It is not meant to be used seriously or taken seriously. I lost some stuff when my gcloud expired so the flash server uploaded here may or may not be completely borked.
 ## What is this?
 This is the open source repository for the MoagCoin cryptocurrency.
 The source code is distributed as-is, any faults or problems occured through use of this uncompiled version of the miner is your own problem
