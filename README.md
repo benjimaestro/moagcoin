@@ -1,6 +1,6 @@
 # MoagCoin Miner
 ## WARNING!
-This is a dumb meme project I made in a rush as part of a joke with friends. It is not meant to be used seriously or taken seriously. I lost some stuff when my gcloud expired so the flash server uploaded here may or may not be completely borked.
+This is a dumb meme project I made in a rush as part of a joke with friends. It is not meant to be used seriously or taken seriously. I lost some stuff when my gcloud expired so the flask server uploaded here may or may not be completely borked.
 
 The difficulty of mining has been reduced and I have included my original wallet so debugging and poking around is easier.
 ## What is this?
