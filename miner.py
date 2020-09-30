@@ -25,13 +25,13 @@ def generate_wallet():
     #encode key to make it shorter
     public_key = base64.b64encode(bytes.fromhex(public_key))
     file_contents = {"public_key":public_key.decode(),"private_key":private_key}
-    if os.path.exists("wallet"):
+    if path.exists("guru99.txt"):
         print("Wallet already exists!")
     else:
         with open("wallet", "w") as f:
             f.write(str(file_contents))
-        with open("wallet.backup.COPY_ME_SOMEWHERE_ELSE", "w") as f:
-            f.write(str(file_contents))
+        with open("wallet.backup") as f:
+            content = f.readlines()
 
 def sign_ECDSA_msg(message,private_key):#Signs messages with your private key - DO NOT FUCK WITH THIS because if you mess it up, none of your requests will be verified
     bmessage = message.encode()
@@ -56,7 +56,7 @@ def send_transaction(addr_from, private_key, addr_to, amount, message):#Does wha
                        "hash":hashlib.sha256(toHash.encode()).hexdigest(),
                        "validated": "unclaimed"}
             print(payload)
-            res = requests.post("http://35.209.72.253:443/addTrans", data=payload)
+            res = requests.post("http://localhost:5555/addTrans", data=payload)
             if res.text == "True":
                 return True
             else:
@@ -68,12 +68,12 @@ def send_transaction(addr_from, private_key, addr_to, amount, message):#Does wha
 
 def read_wallet():#Reads wallet file and returns dictionary
     try:
-        with open("wallet","r") as f:
+        with open("wallet") as f:
             content = f.readlines()
         return literal_eval(content[0])
     except FileNotFoundError:
         generate_wallet()
-        with open("wallet","r") as f:
+        with open("wallet") as f:
             content = f.readlines()
         return literal_eval(content[0])
 
@@ -117,8 +117,8 @@ def txWindow():#Transaction window, called when payment window button is pressed
 
 def wallet():#Wallet window, called when open wallet is pressed, fairly safe to modify and theme
     publicAddress = read_wallet()['public_key']#DONT GIVE AWAY YOUR FUCKING PRIVATE KEY, BE CAREFUL THAT YOU'RE NOT MESSING WITH THAT
-    balance = requests.post('http://35.209.72.253:443/balance', data={'address': publicAddress})
-    transactions = requests.post('http://35.209.72.253:443/getTrans', data={'address': publicAddress})
+    balance = requests.post('http://localhost:5555/balance', data={'address': publicAddress})
+    transactions = requests.post('http://localhost:5555/getTrans', data={'address': publicAddress})
     transactions = ast.literal_eval(transactions.text)
     top = Toplevel()
     top.title("Wallet")
@@ -190,7 +190,7 @@ def miner(vs,quitEvent,sclCores):
         event = mp.Event()
         time.sleep(1)
         blockRequest = {"header":"request-block","address":publicAddress}
-        block = requests.get('http://35.209.72.253:443/unclaimedBlock')
+        block = requests.get('http://localhost:5555/unclaimedBlock')
         block = ast.literal_eval(block.text)
         print("\nGot block "+str(block["hash"]))
         print("Mining...")
@@ -224,7 +224,7 @@ def proofOfWork(event, block, publicAddress):#Core mining module, does the work 
                            string.digits) for x in range(80))
         attempt = challenge+answer
         solution = hashlib.sha256(attempt.encode()).hexdigest()
-        if solution.startswith('000000'):#DONT change this either, will be rejected by server - should be 000000
+        if solution.startswith('0000'):#DONT change this either, will be rejected by server - should be 000000
             found = True
             print("\nBLOCK MINED! Time taken:", time.time()-start)
             print(solution)
@@ -232,7 +232,7 @@ def proofOfWork(event, block, publicAddress):#Core mining module, does the work 
             block["attempt"] = attempt
             block["miner"] = publicAddress
             time.sleep(1)
-            res = requests.post("http://35.209.72.253:443/confirmBlock", data=block)
+            res = requests.post("http://localhost:5555/confirmBlock", data=block)
             event.set()
     return True
     
